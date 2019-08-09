@@ -15,7 +15,10 @@
         </div>
       </nav>
 
-    <router-view/>
+     <transition name="custom" enter-active-class="animated lightSpeedIn" leave-active-class="animated fadeOutDownBig">
+       <router-view/>
+    </transition>
+   
 
   </div>
 </template>
@@ -34,10 +37,21 @@ export default {
 
 <style>
 @import './assets/bootstrap.css';
+@import './assets/animate.css';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.page{
+  position:fixed;
+  /* width:inherit; */
 }
 </style>
