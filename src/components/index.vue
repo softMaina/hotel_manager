@@ -9,9 +9,7 @@
 </template>
 <script>
 export default {
-    name: .shape1{
-       background-color:#FF70A3;
-   }'index'
+    name:'index'
 }
 </script>
 <style>
@@ -19,8 +17,5 @@ export default {
        background-color: #FF8700;
        min-height:800px;
    }
-   /* .shape1{
-       background-color:#FF70A3;
-   } */
 </style>
 
