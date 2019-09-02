@@ -1,57 +1,53 @@
 <template>
-  <div id="app">
-     <nav class="navbar navbar-expand-lg navbar-light shadow">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <router-link class="nav-item nav-link active" to='/'>Home <span class="sr-only">(current)</span></router-link>
-            <router-link class="nav-item nav-link" to="/menus">Menu</router-link>
-            <router-link class="nav-item nav-link" to="/events">Events</router-link>
-            <router-link class="nav-item nav-link" to="/rooms">Rooms</router-link>
-            <router-link class="nav-item nav-link" to="/tables">Table Reservations</router-link>
-          </div>
+  <div class="wrapper">
+      <div>
+            <navbar/>
+            <asidenav/>
+        <div class="content-wrapper">
+
+            <div class="content">
+                <router-view/>
+            </div>
         </div>
-      </nav>
+      </div>
+      <footerComponent/>
+   </div>
 
-     <transition name="custom" enter-active-class="animated lightSpeedIn" leave-active-class="animated fadeOutDownBig">
-       <router-view/>
-    </transition>
-   
-
-  </div>
 </template>
 
 <script>
-// import sidebar from './components/shared/sidebarComponent';
-import $ from  'jquery'
-var bootstrap = require('bootstrap')
+import navbar from '../src/components/utils/navbarComponent'
+import asidenav from '../src/components/utils/asideComponent'
+import footerComponent from '../src/components/utils/footerComponent'
+var jQuery = require('./assets/plugins/jquery/jquery')
+var bootstrap = require('./assets/plugins/bootstrap/js/bootstrap.bundle.js')
+var adminlte = require('./assets/dist/js/adminlte.min.js')
 export default {
   name: 'app',
+  components:{
+      navbar:navbar,
+      asidenav:asidenav,
+      footerComponent:footerComponent,
+  },
   mounted(){
    
   }
 }
+
 </script>
 
 <style>
-@import './assets/bootstrap.css';
-@import './assets/animate.css';
+@import './assets/plugins/fontawesome-free/css/all.min.css';
+@import './assets/dist/css/adminlte.css';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
 .page{
   position:fixed;
-  /* width:inherit; */
+  width:100%;
 }
 </style>
