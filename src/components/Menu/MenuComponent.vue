@@ -24,7 +24,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="img">
-                                     <img src="../../assets/burger.jpg"/>
+                                    <p class="" style="display:none;"> {{ url = "http://localhost:3000"+land.image }}</p>
+                                     <img :src="url" alt="img">
                                 </div>
                                 <div class="desc">
                                     <p><small>{{item.ingredients}}</small></p>
@@ -34,7 +35,7 @@
                             <div class="card-footer">
                                 <div class="row" style="float:right">
                                     <p class="card-link">Edit</p>
-                                    <p class="card-link">Delete</p>
+                                    <p class="card-link" @click="deletemenuitem(item._id)"><i class="fa fa-trash"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -44,29 +45,34 @@
 
                 </div>
                 <div class="row" v-if="addMenu">
-                    <form @submit.prevent="" enctype="multipart/form-data" style="margin:auto">
+                    <form @submit.prevent="post_food" enctype="multipart/form-data" style="margin:auto">
                         <div class="form-group">
-                            <input class="form-control" type="text" placeholder="title">
+                            <input class="form-control" type="text" v-model="food.title" placeholder="title">
                         </div>
                          <div class="form-group">
-                            <select name="category" id="category" class="form-control">
-                                <option value="">Main Dish</option>
+                            <select name="category" id="category" class="form-control" v-model="food.category_id">
+                                <option :value="category._id" v-for="(category, index) in menus" :key="index">{{ category.title }}</option>
                             </select>
                         </div>
                          <div class="form-group">
-                            <textarea class="form-control" type="text" placeholder="description"></textarea>
+                            <textarea class="form-control" type="text" v-model="food.description"  placeholder="description"></textarea>
                         </div>
                          <div class="form-group">
-                            <input class="form-control" type="text" placeholder="price">
+                            <input class="form-control" type="text" v-model="food.price" placeholder="price">
                         </div>
                          <div class="form-group">
-                            <input class="form-control" type="text" placeholder="ingrediencts">
+                            <input class="form-control" type="text" v-model="food.ingredients" placeholder="ingredients">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="file" placeholder="sample image">
+                      <div class="" id="preview">
+                            <img v-if="url" :src="url" alt="image">
                         </div>
+                        <div class="row">
+                            <input type="file" name="file" ref="myFileRef" @change="onFileChange">
+                        </div>
+                    </div>
                         <div class="form-group">
-                            <button class="btn btn-warning" type="submit">Add</button>
+                            <button class="btn btn-warning" type="submit">Add Item</button>
                         </div>
                     </form>
                 </div>
@@ -92,7 +98,7 @@
                     </form>
                 </div>
                 <ul class="list-group m-2">
-                    <li class="list-group-item" v-for="(category, index) in menus" :key="index" @click="select_category(index)">{{category.title}}<span style="float:right"><button class="btn btn-sm btn-success">add item</button></span></li>
+                    <li class="list-group-item" v-for="(category, index) in menus" :key="index" @click="select_category(index)">{{category.title}}<span style="float:right"><button class="btn btn-sm btn-danger" @click="deletecatetory(category._id)"><i class="fa fa-trash"></i></button></span></li>
                 </ul>
             </div>
         </div>
@@ -128,6 +134,15 @@ export default {
               title:'',
               description:''
           },
+          food:{
+              title:'',
+              category_id:'',
+              description:'',
+              price:'',
+              ingredients:'',
+          },
+          file:'',
+          url:null
       }
   },
   mounted(){
@@ -154,7 +169,7 @@ export default {
       },
       async post_category(){
           if(this.category.title !== '' && this.category.description !== ''){
-             await axios.post('http://localhost:3000/menucategory',this.category)
+             await axios.post('http://localhost:3000/api/v1/menucategory',this.category)
                         .then((response)=>{
                             this.addCategory = false
                         })
@@ -174,7 +189,50 @@ export default {
               this.$store.dispatch('SET_SELECTEDMENU',this.selected_menu_category)
           }
 
-      }
+      },
+      async post_food(){
+          this.file = this.$refs.myFileRef.files[0];
+
+            if(!this.file){
+                console.error("no file selected")
+                return;
+            }
+
+            let formData = new FormData()
+
+            formData.append('file',this.file)
+            formData.append('body',JSON.stringify(this.food))
+            return axios.post(
+                'http://localhost:3000/api/v1/addmenu',
+                formData,
+                {
+                    headers: {
+                        'Content-Type':'multipart/form-data'
+                    }
+                }
+            ).then(response =>{
+                console.info(response)
+            })
+            .catch(error =>{req.file
+                console.error("file upload faild",error)
+            });
+      },
+      async deletecatetory(id){
+          return axios.delete('http://localhost:3000/api/v1/deletemenucategory/'+id).then(response => {
+              console.log(response)
+          })
+      },
+      async deletemenuitem(id){
+        return axios.delete('http://localhost:3000/api/v1/deletemenu/'+id).then(response => {
+            console.log(response)
+        })
+      },
+
+    onFileChange(e){
+        const file = e.target.files[0];
+        let formData = new FormData()
+        this.url = URL.createObjectURL(file);
+    }
     
   }
 }
