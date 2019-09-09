@@ -14,7 +14,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div>
-                                    <p class="badge badge-primary">3 Orders</p>
+                                    <p class="badge badge-primary">0 Orders</p>
                                 </div>
                                 <h6>{{item.title}}</h6>
                                 <small>{{selected_menu_category.title}}</small>
@@ -24,7 +24,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="img">
-                                    <p class="" style="display:none;"> {{ url = "http://localhost:3000"+land.image }}</p>
+                                    <p class="" style="display:none;"> {{ url = "http://localhost:3000/"+item.image }}</p>
                                      <img :src="url" alt="img">
                                 </div>
                                 <div class="desc">
