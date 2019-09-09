@@ -24,7 +24,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="img">
-                                    <p class="" style="display:none;"> {{ url = "http://localhost:3000/"+item.image }}</p>
+                                    <p class="" style="display:none;"> {{ url = "https://hotelsjunior.herokuapp.com/"+item.image }}</p>
                                      <img :src="url" alt="img">
                                 </div>
                                 <div class="desc">
@@ -169,7 +169,7 @@ export default {
       },
       async post_category(){
           if(this.category.title !== '' && this.category.description !== ''){
-             await axios.post('http://localhost:3000/api/v1/menucategory',this.category)
+             await axios.post('https://hotelsjunior.herokuapp.com/api/v1/menucategory',this.category)
                         .then((response)=>{
                             this.addCategory = false
                         })
@@ -203,7 +203,7 @@ export default {
             formData.append('file',this.file)
             formData.append('body',JSON.stringify(this.food))
             return axios.post(
-                'http://localhost:3000/api/v1/addmenu',
+                'https://hotelsjunior.herokuapp.com/api/v1/addmenu',
                 formData,
                 {
                     headers: {
@@ -218,12 +218,12 @@ export default {
             });
       },
       async deletecatetory(id){
-          return axios.delete('http://localhost:3000/api/v1/deletemenucategory/'+id).then(response => {
+          return axios.delete('https://hotelsjunior.herokuapp.com/api/v1/deletemenucategory/'+id).then(response => {
               console.log(response)
           })
       },
       async deletemenuitem(id){
-        return axios.delete('http://localhost:3000/api/v1/deletemenu/'+id).then(response => {
+        return axios.delete('https://hotelsjunior.herokuapp.com/api/v1/deletemenu/'+id).then(response => {
             console.log(response)
         })
       },
