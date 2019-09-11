@@ -2,10 +2,20 @@
     <div class="container">
         <div class="row">
         <div class="col-md-9">
+            <div v-if="this.$store.getters.room_items === '' ">
+                    <div class="empty bg-info">
+                        <div class="col-md-12">
+                             <p class="text-center text-warning" style="padding-top:30%; fontSize:30px">Nothing to show!!</p>
+                        </div>
+                    </div>
+              </div>
             <AddRoom v-if="addroom"/>
             <div class="row mt-3" v-if="!addroom">
-            
-               <div class="col-md-4">
+              
+              <!-- room card -->
+              <div v-if="this.$store.getters.room_items !=='' ">
+                <div v-if="this.$store.getters.room_items !== undefined">
+               <div class="col-md-4" v-for="(item, index) in this.$store.getters.room_items.rooms" :key="index">
                     <div class="card shadow">
                     <img class="card-img-top" src="../../assets/hotelroom.jpg" alt="Card image cap">
                     <div class="card-body">
@@ -15,28 +25,10 @@
                     </div>
                     </div>
                 </div>
-
-                   <div class="col-md-4">
-                    <div class="card shadow">
-                    <img class="card-img-top" src="../../assets/hotelroom.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
                 </div>
-
-                   <div class="col-md-4">
-                    <div class="card shadow">
-                    <img class="card-img-top" src="../../assets/hotelroom.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
+              </div>
+            <!-- end of room card -->
+             
             </div>
             
         </div>
@@ -65,11 +57,8 @@
                 </div>
                  <div>
                     <ul class="list-group">
-                        <li class="list-group-item active">Wedding</li>
-                        <li class="list-group-item">Business Meetings</li>
-                        <li class="list-group-item">Religious</li>
-                        <li class="list-group-item">Team Building</li>
-                        <li class="list-group-item">Schooling</li>
+                        <li class="list-group-item" v-for="(category, index) in rooms" :key="index" @click="select_category(index)">{{category.title}}</li>
+                        
                     </ul>
                 </div>
         </div>
@@ -77,6 +66,13 @@
         </div> 
     </div>  
 </template>
+<style scoped>
+ .empty{
+        height:400px;
+        width:100%;
+        margin:auto;
+    }
+</style>
 <script>
 import AddRoom from "./AddRoomComponent"
 import axios from "axios"
@@ -89,6 +85,7 @@ export default {
         return {
             addroom:false,
             addcategory:false,
+            selected_room_category:{},
             category:{
                 title:'',
                 description:''
@@ -103,27 +100,35 @@ export default {
       )
       
     },
+    computed:{
+        rooms(){
+            return this.$store.getters.rooms;
+        }
+    },
     methods:{
         addRoom(){
             this.addroom = !this.addroom
         },
+
         addCategory(){
             this.addcategory = !this.addcategory
         },
+
         addRoomCategory(){
             axios.post("http://localhost:3000/api/v1/saveRoomCategory",this.category)
                 .then((response)=>{
                     console.log(response)
                 })
         },
-          select_category(id){ 
+
+        select_category(id){ 
           
           if(id !== ''){
-              this.selected_menu_category = this.$store.getters.menu[id]
-              this.$store.dispatch('SET_SELECTEDMENU',this.selected_menu_category)
+              this.selected_room_category = this.$store.getters.rooms[id]
+              this.$store.dispatch('SET_SELECTEDROOMCATEGORY',this.selected_room_category)
           }else if(id === undefined){
-              this.selected_menu_category = this.$store.getters.menu[0]
-              this.$store.dispatch('SET_SELECTEDMENU',this.selected_menu_category)
+              this.selected_room_category = this.$store.getters.rooms[0]
+              this.$store.dispatch('SET_SELECTEDROOMCATEGORY',this.selected_room_category)
           }
 
       }

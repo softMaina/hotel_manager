@@ -12,8 +12,8 @@
                 </div>
                 <div class="form-group">
                     <label for="" class="label-control">Category</label>
-                    <select name="category" id="" class="form-control">
-                        <option value="">Family</option>
+                    <select name="category" id="category" class="form-control" v-model="room.category_id">
+                        <option :value="category._id" v-for="(category, index) in this.$store.getters.rooms" :key="index">{{ category.title }}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -23,6 +23,14 @@
                 <div class="form-group">
                     <label for="">Cost per 24hrs</label>
                     <input class="form-control" v-model="room.cost"/>
+                </div>
+                <div class="form-group">
+                    <div class="" id="preview">
+                        <img v-if="url" :src="url" alt="image">
+                    </div>
+                    <div class="row">
+                        <input type="file" name="file" ref="myFileRef" @change="onFileChange">
+                    </div>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-sm btn-dark">Add room</button>
@@ -38,25 +46,60 @@ export default {
     name:'addroom',
     data(){
         return {
-                 room:{
+            file:'',
+            url:null,
+            room:{
                 title:'',
                 description:'',
                 cost:'',
-                category:'5d529f158eeef20e0c98e966',
+                category_id:'',
                 no_of_people:''
             },
         }
     },
     methods:{
-        addRoom(){
-            axios.post('http://localhost:3000/api/v1/saveRoom',this.room)
-                .then((response)=>{
-                    console.log(response)
-                })
+        async addRoom(){
+            this.file = this.$refs.myFileRef.files[0];
+
+            if(!this.file){
+                console.error("no file selected")
+                return;
+            }
+
+            let formData = new FormData()
+
+            formData.append('file',this.file)
+            formData.append('body',JSON.stringify(this.room))
+            return axios.post(
+                'http://localhost:3000/api/v1/saveRooms',
+                formData,
+                {
+                    headers: {
+                        'Content-Type':'multipart/form-data'
+                    }
+                }
+            ).then(response =>{
+                console.info(response)
+            })
+            .catch(error =>{req.file
+                console.error("file upload faild",error)
+            });
+        },
+
+        
+
+        onFileChange(e){
+        const file = e.target.files[0];
+        let formData = new FormData()
+        this.url = URL.createObjectURL(file);
         }
+
     }
 }
 </script>
 <style>
-
+    .img img{
+        height:200px;
+        width:190px;
+    }
 </style>

@@ -18,7 +18,7 @@
             alt="User picture">
         </div>
         <div class="user-info">
-          <span class="user-name">Jhon
+          <!-- <span class="user-name">Jhon
             <strong>Smith</strong>
           </span>
           <span class="user-role">Administrator</span>
@@ -26,7 +26,7 @@
             <i class="fa fa-circle"></i>
             <span>Online</span>
           </span>
-        </div>
+        </div> -->
       </div>
       <!-- sidebar-header  -->
       <div class="sidebar-search">

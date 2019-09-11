@@ -1,50 +1,18 @@
 <template>
-    <div class="container">
-        <div class="row mt-4">
-            <div class="col-md-8">
-                <div class="row" v-if="!addMenu">
-                    <div class="empty" v-if="this.$store.getters.menu_items.menu === undefined || this.$store.getters.menu_items.menu.length === 0">
-                        <div class="col-md-12 bg-light ">
-                             <p class="text-center text-info">doesnt have food items in this category</p>
+    <div class="container-fluid">
+     <div class="row m-1">
+       <!-- food items list -->
+       <div class="col-md-9">
+              <div v-if="this.$store.getters.menu_items === '' ">
+                    <div class="empty bg-info">
+                        <div class="col-md-12">
+                             <p class="text-center text-warning" style="padding-top:30%; fontSize:30px">Nothing to show!!</p>
                         </div>
                     </div>
+              </div>
 
-                    <section class="col-md-12" v-if="this.$store.getters.menu_items.menu !== undefined && this.$store.getters.menu_items.menu.length > 0">
-                    <div class="col-md-4 shadow" v-for="item in this.$store.getters.menu_items.menu" :key="item.id">
-                        <div class="card">
-                            <div class="card-header">
-                                <div>
-                                    <p class="badge badge-primary">0 Orders</p>
-                                </div>
-                                <h6>{{item.title}}</h6>
-                                <small>{{selected_menu_category.title}}</small>
-                                <div class="row">
-                                    <button class="btn btn-sm btn-info">in stock</button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="img">
-                                    <p class="" style="display:none;"> {{ url = "https://hotelsjunior.herokuapp.com/"+item.image }}</p>
-                                     <img :src="url" alt="img">
-                                </div>
-                                <div class="desc">
-                                    <p><small>{{item.ingredients}}</small></p>
-                                </div>
-                               
-                            </div>
-                            <div class="card-footer">
-                                <div class="row" style="float:right">
-                                    <p class="card-link">Edit</p>
-                                    <p class="card-link" @click="deletemenuitem(item._id)"><i class="fa fa-trash"></i></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    </section>
-
-                </div>
-                <div class="row" v-if="addMenu">
+              <!-- add food form -->
+               <div class="row" v-if="addMenu">
                     <form @submit.prevent="post_food" enctype="multipart/form-data" style="margin:auto">
                         <div class="form-group">
                             <input class="form-control" type="text" v-model="food.title" placeholder="title">
@@ -75,14 +43,60 @@
                             <button class="btn btn-warning" type="submit">Add Item</button>
                         </div>
                     </form>
-                </div>
+                
             </div>
-            <div class="col-md-4 shadow">
+              <!-- end of form -->
+              
+              <!-- food cards -->
+              <div v-if="this.$store.getters.menu_items !== ''">
+                  <section class="col-md-12" v-if="this.$store.getters.menu_items !== undefined">
+                    <div class="col-md-4 shadow"  v-for="item in this.$store.getters.menu_items.menu" :key="item.id">
+                        <div class="card" style="backgroundColor:rgba(0,0,0,0)">
+                            <div class="card-header">
+                                <!-- <div>
+                                    <p class="badge badge-primary">3 Orders</p>
+                                </div> -->
+                                <h6>{{item.title}}</h6>
+                                <small>{{selected_menu_category.title}}</small>
+                                <div class="row">
+                                    <button class="btn btn-sm btn-info">in stock</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="img">
+                                    <p class="" style="display:none;"> {{ url = "http://localhost:3000/"+item.image }}</p>
+                                     <img :src="url" alt="img">
+                                </div>
+                                <div class="desc">
+                                    <p><small>{{item.ingredients}}</small></p>
+                                </div>
+                               
+                            </div>
+                            <div class="card-footer">
+                                <div class="row" style="float:right">
+                                    <p class="card-link"><i class="fa fa-edit"></i></p>
+                                    <p class="card-link" @click="deletemenuitem(item._id)"><i class="fa fa-trash"></i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </section>
+                          
+              </div>
+              <!-- end of food cards -->
+        </div>
+
+        <!-- end of food items list -->
+
+        <!-- control sidebar -->
+        <div class="col-md-3 shadow ">
+            <div class="m-2">
                 <div class="row m-2">
-                    <button class="btn btn-sm btn-default shadow" @click="add_item">{{ addCategory ? cancel : title}}</button>
-                    <button class="btn btn-sm btn-info shadow" style="float:right" @click="add_menu_item">{{ addMenu ? cancel : m_title}}</button>
+                    <button class="btn btn-sm btn-info  m-1" style="float:left" @click="add_item">{{ addCategory ? cancel : title}}</button>
+                    <button class="btn btn-sm btn-warning  m-1" style="float:right" @click="add_menu_item">{{ addMenu ? cancel : m_title}}</button>
                 </div>
-                <div class="m-2" v-if="addCategory">
+                <div class="m-3" v-if="addCategory">
                     <form @submit.prevent="post_category">
                         <div class="form-group">
                             <input type="text" placeholder="category title" class="form-control" v-model="category.title">
@@ -97,11 +111,16 @@
                         </div>
                     </form>
                 </div>
-                <ul class="list-group m-2">
+                <div class="m-2">
+                <ul class="list-group" style="margin-bottom:10px">
                     <li class="list-group-item" v-for="(category, index) in menus" :key="index" @click="select_category(index)">{{category.title}}<span style="float:right"><button class="btn btn-sm btn-danger" @click="deletecatetory(category._id)"><i class="fa fa-trash"></i></button></span></li>
+                
                 </ul>
-            </div>
+                </div>
         </div>
+        </div>
+        <!-- end of control sidebar -->
+     </div>
     </div>
 </template>
 <style>
@@ -163,13 +182,15 @@ export default {
           this.addCategory = !this.addCategory
           this.addMenu = false
       },
+
       add_menu_item(){
           this.addMenu = !this.addMenu
           this.addCategory = false
       },
+
       async post_category(){
           if(this.category.title !== '' && this.category.description !== ''){
-             await axios.post('https://hotelsjunior.herokuapp.com/api/v1/menucategory',this.category)
+             await axios.post('http://localhost:3000/api/v1/menucategory',this.category)
                         .then((response)=>{
                             this.addCategory = false
                         })
@@ -179,6 +200,7 @@ export default {
               console.log('not working')
           }
       },
+
       select_category(id){ 
           
           if(id !== ''){
@@ -188,8 +210,8 @@ export default {
               this.selected_menu_category = this.$store.getters.menu[0]
               this.$store.dispatch('SET_SELECTEDMENU',this.selected_menu_category)
           }
-
       },
+      
       async post_food(){
           this.file = this.$refs.myFileRef.files[0];
 
@@ -203,7 +225,7 @@ export default {
             formData.append('file',this.file)
             formData.append('body',JSON.stringify(this.food))
             return axios.post(
-                'https://hotelsjunior.herokuapp.com/api/v1/addmenu',
+                'http://localhost:3000/api/v1/addmenu',
                 formData,
                 {
                     headers: {
@@ -217,13 +239,14 @@ export default {
                 console.error("file upload faild",error)
             });
       },
+      
       async deletecatetory(id){
-          return axios.delete('https://hotelsjunior.herokuapp.com/api/v1/deletemenucategory/'+id).then(response => {
+          return axios.delete('http://localhost:3000/api/v1/deletemenucategory/'+id).then(response => {
               console.log(response)
           })
       },
       async deletemenuitem(id){
-        return axios.delete('https://hotelsjunior.herokuapp.com/api/v1/deletemenu/'+id).then(response => {
+        return axios.delete('http://localhost:3000/api/v1/deletemenu/'+id).then(response => {
             console.log(response)
         })
       },
