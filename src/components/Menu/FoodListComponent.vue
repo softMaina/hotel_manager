@@ -24,7 +24,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="img">
-                                    <p class="" style="display:none;"> {{ url = "http://localhost:3000/"+item.image }}</p>
+                                    <p class="" style="display:none;"> {{ url = "https://hotelsjunior.herokuapp.com/"+item.image }}</p>
                                      <img :src="url" alt="img">
                                 </div>
                                 <div class="desc">

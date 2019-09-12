@@ -35,7 +35,7 @@ export const store  = new Vuex.Store({
     actions:{
           // eslint-disable-next-line 
         GET_MENUCATEGORIES: async (context, payload) =>{
-            let { data } = await axios.get('http://localhost:3000/api/v1/menucategories')
+            let { data } = await axios.get('https://hotelsjunior.herokuapp.com/api/v1/menucategories')
             context.commit('SET_MENUCATEGORIES',data)
         },
         SET_SELECTEDMENU: async (context, payload)=>{
@@ -44,7 +44,7 @@ export const store  = new Vuex.Store({
         },
          // eslint-disable-next-line 
         GET_ROOMCATEGORIES: async (context, payload) => {
-            let { data } = await axios.get('http://localhost:3000/api/v1/getRooms')
+            let { data } = await axios.get('https://hotelsjunior.herokuapp.com/api/v1/getRooms')
             context.commit('SET_ROOMS',data)
             console.log(context.state.roomCategories);
         },

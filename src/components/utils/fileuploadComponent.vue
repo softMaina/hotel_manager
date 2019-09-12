@@ -31,10 +31,10 @@ export default {
             try{   
             
                 
-                await axios.post('http://localhost:3000/uploadfile',formData).then((response)=>{
+                await axios.post('https://hotelsjunior.herokuapp.com/uploadfile',formData).then((response)=>{
                     console.log(response)
                 })
-                // await fetch('http://localhost:3000/uploadfile',{
+                // await fetch('https://hotelsjunior.herokuapp.com/uploadfile',{
                 //     method:'POST',
                 //     body:formData
                 // }).then((response)=>{

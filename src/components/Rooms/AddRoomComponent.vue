@@ -71,7 +71,7 @@ export default {
             formData.append('file',this.file)
             formData.append('body',JSON.stringify(this.room))
             return axios.post(
-                'http://localhost:3000/api/v1/saveRooms',
+                'https://hotelsjunior.herokuapp.com/api/v1/saveRooms',
                 formData,
                 {
                     headers: {

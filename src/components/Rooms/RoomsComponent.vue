@@ -18,7 +18,7 @@
                <div class="col-md-4" v-for="(item, index) in this.$store.getters.room_items.rooms" :key="index">
                     <div class="card shadow">
                       
-                    <p class="" style="display:none;"> {{ url = "http://localhost:3000/"+item.image }}</p>
+                    <p class="" style="display:none;"> {{ url = "https://hotelsjunior.herokuapp.com/"+item.image }}</p>
                                 
                     <img class="card-img-top" :src="url" alt="Card image cap">
                     <div class="card-body">
@@ -118,7 +118,7 @@ export default {
         },
 
         addRoomCategory(){
-            axios.post("http://localhost:3000/api/v1/saveRoomCategory",this.category)
+            axios.post("https://hotelsjunior.herokuapp.com/api/v1/saveRoomCategory",this.category)
                 .then((response)=>{
                     console.log(response)
                 })
