@@ -17,11 +17,14 @@
                 <div v-if="this.$store.getters.room_items !== undefined">
                <div class="col-md-4" v-for="(item, index) in this.$store.getters.room_items.rooms" :key="index">
                     <div class="card shadow">
-                    <img class="card-img-top" src="../../assets/hotelroom.jpg" alt="Card image cap">
+                      
+                    <p class="" style="display:none;"> {{ url = "http://localhost:3000/"+item.image }}</p>
+                                
+                    <img class="card-img-top" :src="url" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-title">{{item.title}}</h5>
+                        <p class="card-text">{{item.description}}</p>
+                        <a href="#" class="btn btn-primary">Ksh {{item.cost}}</a>
                     </div>
                     </div>
                 </div>
