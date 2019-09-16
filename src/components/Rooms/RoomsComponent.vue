@@ -15,7 +15,7 @@
               <!-- room card -->
               <div v-if="this.$store.getters.room_items !=='' ">
                 <div v-if="this.$store.getters.room_items !== undefined">
-               <div class="col-md-4" v-for="(item, index) in this.$store.getters.room_items.rooms" :key="index">
+               <div class="col-md-4 carditems" v-for="(item, index) in this.$store.getters.room_items.rooms" :key="index">
                     <div class="card shadow">
                       
                     <p class="" style="display:none;"> {{ url = "https://hotelsjunior.herokuapp.com/"+item.image }}</p>
@@ -74,6 +74,9 @@
         height:400px;
         width:100%;
         margin:auto;
+    }
+    .carditems{
+        min-width: 300px; 
     }
 </style>
 <script>
