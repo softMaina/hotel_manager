@@ -44,7 +44,8 @@ export const store = new Vuex.Store({
             context.commit('SET_MENUCATEGORIES', data)
         },
         GET_MENUORDERS: async (context, payload) => {
-            let { data } = await axios.get('https://hotelsjunior.herokuapp.com/api/v1/menuorder')
+            let { data } = await axios.get('https://hotelsjunior.herokuapp.com/api/v1/menuorders')
+            console.log(data)
             context.commit('SET_ORDERS', data)
         },
         SET_SELECTEDMENU: async (context, payload) => {
